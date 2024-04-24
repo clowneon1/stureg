@@ -44,12 +44,12 @@ lgrade varchar2(2) check (lgrade in ('A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-'
 create table g_enrollments (g_B# char(9) references students, classid char(5) references classes, 
 score number(4, 2) references score_grade, primary key (g_B#, classid));
 
-create table logs (log# number(4) primary key, 
+create table logs (log# NUMBER DEFAULT log_sequence.NEXTVAL primary key, 
 user_name varchar2(10) not null, 
 op_time date not null, 
 table_name varchar2(13) not null, 
 operation varchar2(6) not null, 
-tuple_keyvalue varchar2(20));
+tuple_keyvalue varchar2(200));
 
 insert into students values ('B00000001', 'Anne', 'Broder', 'graduate', 3.7, 'broder@bu.edu', '17-JAN-94');
 insert into students values ('B00000002', 'Terry', 'Buttler', 'senior', 3.0, 'buttler@bu.edu', '28-MAY-93');
@@ -162,7 +162,4 @@ insert into g_enrollments values ('B00000010', 'c0011', 88);
 insert into g_enrollments values ('B00000010', 'c0010', 92); 
 insert into g_enrollments values ('B00000010', 'c0009', 76); 
 insert into g_enrollments values ('B00000010', 'c0008', 79.5);
-
-UPDATE g_enrollments SET classid = 'c0010' WHERE g_B# = 'B00000010' AND classid = 'c0006';
- 
 
