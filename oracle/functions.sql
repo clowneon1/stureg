@@ -23,7 +23,7 @@ BEGIN
     INTO student_status
     FROM students s
     WHERE s.B# = p_B# AND s.ST_LEVEL = 'graduate';
-    
+
     RETURN student_status;
 END check_graduate_student;
 

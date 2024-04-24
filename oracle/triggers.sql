@@ -29,7 +29,7 @@ FOR EACH ROW
 BEGIN
     DELETE FROM g_enrollments
     WHERE g_B# = :OLD.B#;
-    DBMS_OUTPUT.PUT_LINE('Trigger: deleted all enrollments of student', OLD.B# );
+    DBMS_OUTPUT.PUT_LINE('Trigger: deleted all enrollments of student');
 END;
 /
 
@@ -41,7 +41,7 @@ BEGIN
     INSERT INTO logs (user_name, op_time, table_name, operation, tuple_keyvalue)
     VALUES (USER, SYSTIMESTAMP, 'Students', 'Delete', :OLD.B#);
 
-    DBMS_OUTPUT.PUT_LINE('log trigger : 1 ');
+    DBMS_OUTPUT.PUT_LINE('Trigger : log student deletion from the Students table');
 END student_delete_trigger;
 /
 
@@ -52,7 +52,7 @@ FOR EACH ROW
 BEGIN
     INSERT INTO logs (user_name, op_time, table_name, operation, tuple_keyvalue)
     VALUES (USER, SYSTIMESTAMP, 'G_Enrollments', 'Insert', :NEW.g_B# || ',' || :NEW.classid);
-    DBMS_OUTPUT.PUT_LINE('log trigger : 2');
+    DBMS_OUTPUT.PUT_LINE('Trigger : log successful student enrollment into a class');
 END enrollment_insert_trigger;
 /
 
@@ -63,6 +63,7 @@ FOR EACH ROW
 BEGIN
     INSERT INTO logs (user_name, op_time, table_name, operation, tuple_keyvalue)
     VALUES (USER, SYSTIMESTAMP, 'G_Enrollments', 'Delete', :OLD.g_B# || ',' || :OLD.classid);
+    DBMS_OUTPUT.PUT_LINE('Trigger : log successful student drop from a class');
 END enrollment_delete_trigger;
 /
 
