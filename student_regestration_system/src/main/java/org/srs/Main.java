@@ -6,7 +6,9 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        showMenu();
+//        showMenu();
+        LogsManagement logsManagement = new LogsManagement();
+        logsManagement.displayLogs();
     }
 
     private static void showMenu() {
