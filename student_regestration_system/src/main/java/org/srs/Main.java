@@ -9,6 +9,7 @@ public class Main {
 //        showMenu();
         LogsManagement logsManagement = new LogsManagement();
         logsManagement.displayLogs();
+        logsManagement.displayPrerequisites();
     }
 
     private static void showMenu() {
