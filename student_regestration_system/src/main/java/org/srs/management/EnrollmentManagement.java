@@ -70,45 +70,40 @@ public class EnrollmentManagement {
     }
 
     public void addEnrollment(Connection conn, Scanner scanner) throws SQLException {
-        String ADD_ENROLLMENT_QUERY = "INSERT INTO g_enrollments (g_B#, classid, score) VALUES (?, ?, ?)";
-
+        String ADD_ENROLLMENT_QUERY = "{call student_management_package.enroll_student_into_class(?, ?)}";
+        CallableStatement stmt = conn.prepareCall(ADD_ENROLLMENT_QUERY);
+        DbmsOutput dbmsOutput = new DbmsOutput(conn);
+        dbmsOutput.enable(1000000);
         System.out.println("Enter student B#:");
         String bNumber = scanner.nextLine();
         System.out.println("Enter class ID:");
         String classId = scanner.nextLine();
-        System.out.println("Enter score:");
-        double score = scanner.nextDouble();
 
-        try (PreparedStatement ps = conn.prepareStatement(ADD_ENROLLMENT_QUERY)) {
-            ps.setString(1, bNumber);
-            ps.setString(2, classId);
-            ps.setDouble(3, score);
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Enrollment added successfully.");
-            } else {
-                System.out.println("Failed to add enrollment.");
-            }
-        }
+        stmt.setString(1, bNumber);
+        stmt.setString(2, classId);
+        stmt.execute();
+        stmt.close();
+        dbmsOutput.show();
+        dbmsOutput.close();
     }
 
     public void deleteEnrollment(Connection conn, Scanner scanner) throws SQLException {
-        String DELETE_ENROLLMENT_QUERY = "DELETE FROM g_enrollments WHERE g_B# = ? AND classid = ?";
+        String DELETE_ENROLLMENT_QUERY = "{call student_management_package.drop_student_from_class(?, ?)}";
+        CallableStatement stmt = conn.prepareCall(DELETE_ENROLLMENT_QUERY);
+        DbmsOutput dbmsOutput = new DbmsOutput(conn);
+        dbmsOutput.enable(1000000);
 
         System.out.println("Enter student B#:");
         String bNumber = scanner.nextLine();
         System.out.println("Enter class ID:");
         String classId = scanner.nextLine();
 
-        try (PreparedStatement ps = conn.prepareStatement(DELETE_ENROLLMENT_QUERY)) {
-            ps.setString(1, bNumber);
-            ps.setString(2, classId);
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Enrollment deleted successfully.");
-            } else {
-                System.out.println("Failed to delete enrollment. Enrollment not found.");
-            }
-        }
+        stmt.setString(1, bNumber);
+        stmt.setString(2, classId);
+        stmt.execute();
+        stmt.close();
+        dbmsOutput.show();
+        dbmsOutput.close();
+
     }
 }
