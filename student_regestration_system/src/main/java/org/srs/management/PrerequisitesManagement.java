@@ -21,7 +21,7 @@ public class PrerequisitesManagement {
     public void displayMenu() {
         try  {
             while (true) {
-                System.out.println(MenuStrings.PREREQUISITE_MENU);
+                System.out.print(MenuStrings.PREREQUISITE_MENU);
 
                 int choice = scanner.nextInt();
                 scanner.nextLine(); // Consume newline

@@ -36,7 +36,7 @@ public class Main {
         boolean exit = false;
 
         while (!exit) {
-            System.out.println(MenuStrings.MAIN_MENU);
+            System.out.print(MenuStrings.MAIN_MENU);
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 

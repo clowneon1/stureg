@@ -41,9 +41,10 @@ public class MenuStrings {
             1. Add Student
             2. View All Students
             3. View Student by ID
-            4. Delete Student
-            5. Return to previous menu
-            6. Exit
+            4. View Students By CourseId.
+            5. Delete Student
+            6. Return to previous menu
+            7. Exit
             Enter your choice:""";
 
     public static final String ENROLLMENT_MENU = """

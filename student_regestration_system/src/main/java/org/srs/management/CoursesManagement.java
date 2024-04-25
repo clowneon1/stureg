@@ -20,7 +20,7 @@ public class CoursesManagement {
     public void displayMenu(){
         try {
             while (true) {
-                System.out.println(MenuStrings.COURSE_MENU);
+                System.out.print(MenuStrings.COURSE_MENU);
                 int choice = scanner.nextInt();
                 scanner.nextLine(); // Consume newline
 

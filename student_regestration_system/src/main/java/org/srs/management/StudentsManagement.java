@@ -37,12 +37,15 @@ public class StudentsManagement {
                         viewStudentByID();
                         break;
                     case 4:
-                        deleteStudent();
+                        viewStudentsByCourseId();
                         break;
                     case 5:
+                        deleteStudent();
+                        break;
+                    case 6:
                         System.out.println("Exiting Student Management. Goodbye!");
                         return;
-                    case 6:
+                    case 7:
                         conn.close();
                         System.out.println("Exiting Student Management System. Goodbye!");
                         System.exit(0);
@@ -52,6 +55,31 @@ public class StudentsManagement {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void viewStudentsByCourseId() {
+        System.out.print("Enter Class Id: ");
+        String classId = scanner.nextLine().trim();
+
+
+        try {
+            CallableStatement stmt = conn.prepareCall("{ call student_management_package.list_students_in_class(?) }");
+
+            // Set the parameters for the stored procedure
+            stmt.setString(1, classId);
+
+            DbmsOutput dbmsOutput = new DbmsOutput(conn);
+            dbmsOutput.enable(1000000);
+
+            // Execute the stored procedure
+            stmt.execute();
+
+            stmt.close();
+            dbmsOutput.show();
+            dbmsOutput.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
