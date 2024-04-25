@@ -58,6 +58,7 @@ public class Main {
                     break;
                 case 6:
                     logsManagement.displayLogs();
+                    break;
                 case 7:
                     exit = true;
                     break;
