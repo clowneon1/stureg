@@ -2,6 +2,7 @@ package org.srs.management;
 
 
 import org.srs.outputs.DbmsOutput;
+import org.srs.utility.MenuStrings;
 
 import java.sql.*;
 import java.util.Scanner;
@@ -10,53 +11,45 @@ public class CoursesManagement {
 
     private Connection conn;
     private Scanner scanner;
-    private static final String MENU = """
-            ---------------------------------------------------------------------------------------
-            Course Management Menu:
-            1. View Courses
-            2. View Course By Course Id
-            3. Add Course
-            4. Delete Course
-            5. Return to previous menu
-            6. Exit
-            Enter your choice:""";
 
     public CoursesManagement(Connection conn, Scanner scanner) {
         this.conn = conn;
         this.scanner = scanner;
     }
 
-    public void displayMenu() throws SQLException {
+    public void displayMenu(){
+        try {
+            while (true) {
+                System.out.println(MenuStrings.COURSE_MENU);
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
 
-        while (true) {
-            System.out.println(MENU);
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            switch (choice) {
-                case 1:
-                    viewCourses(conn);
-                    break;
-                case 2:
-                    viewCourseByID(conn, scanner);
-                    break;
-                case 3:
-                    addCourse(conn, scanner);
-                    break;
-                case 4:
-                    deleteCourse(conn, scanner);
-                    break;
-                case 5:
-                    return;
-                case 6:
-                    conn.close();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please enter a valid option.");
+                switch (choice) {
+                    case 1:
+                        viewCourses(conn);
+                        break;
+                    case 2:
+                        viewCourseByID(conn, scanner);
+                        break;
+                    case 3:
+                        addCourse(conn, scanner);
+                        break;
+                    case 4:
+                        deleteCourse(conn, scanner);
+                        break;
+                    case 5:
+                        return;
+                    case 6:
+                        conn.close();
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please enter a valid option.");
+                }
             }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-
     }
 
 

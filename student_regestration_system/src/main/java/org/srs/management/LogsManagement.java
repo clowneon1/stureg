@@ -1,14 +1,23 @@
 package org.srs.management;
 
+import oracle.jdbc.util.ThreadSafeCache;
 import org.srs.config.DatabaseConnection;
 import org.srs.outputs.DbmsOutput;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class LogsManagement {
+    private Connection conn;
+    private Scanner scanner;
+
+    public LogsManagement(Connection conn, Scanner scanner) {
+        this.conn = conn;
+        this.scanner = scanner;
+    }
+
     public void displayLogs() {
         try {
-            Connection conn = DatabaseConnection.getConnectionInstance();
             Statement stmt = conn.createStatement();
             DbmsOutput dbmsOutput = new DbmsOutput(conn);
             dbmsOutput.enable(1000000);
@@ -17,35 +26,8 @@ public class LogsManagement {
             stmt.close();
             dbmsOutput.show();
             dbmsOutput.close();
-            conn.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-    public void displayPrerequisites() {
-        try {
-            Connection conn = DatabaseConnection.getConnectionInstance();
-            CallableStatement stmt = conn.prepareCall("{ call student_management_package.show_prerequisites(?, ?) }");
-
-            // Set the parameters for the stored procedure
-            stmt.setString(1, "CS"); // Replace "dept_code_value" with the actual department code
-            stmt.setInt(2, 999); // Replace 123 with the actual course number
-
-            DbmsOutput dbmsOutput = new DbmsOutput(conn);
-            dbmsOutput.enable(1000000);
-
-            // Execute the stored procedure
-            stmt.execute();
-
-            stmt.close();
-            dbmsOutput.show();
-            dbmsOutput.close();
-            conn.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
 }
