@@ -37,6 +37,7 @@ public class SrsCli {
         PrerequisitesManagement prerequisitesManagement = new PrerequisitesManagement(conn, scanner);
         StudentsManagement studentsManagement = new StudentsManagement(conn, scanner);
         LogsManagement logsManagement = new LogsManagement(conn, scanner);
+        CourseCreditManagement courseCreditManagement = new CourseCreditManagement(conn, scanner);
 
         boolean exit = false;
 
@@ -65,6 +66,9 @@ public class SrsCli {
                     logsManagement.displayLogs();
                     break;
                 case 7:
+                    courseCreditManagement.displayMenu();
+                    break;
+                case 8:
                     exit = true;
                     break;
                 default:

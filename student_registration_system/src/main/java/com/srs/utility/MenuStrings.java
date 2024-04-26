@@ -11,7 +11,8 @@ public class MenuStrings {
             4. Prerequisites
             5. Students Management
             6. Show Logs
-            7. Exit
+            7. Course Credit Management
+            8. Exit
             Enter your choice:""";
 
     public static final String CLASS_MENU = """
@@ -68,4 +69,14 @@ public class MenuStrings {
             5. Return to previous menu
             6. Exit
             Enter your choice:""";
+    public static final String COURSE_CREDIT_MENU = """
+            --------------------------------------------------
+            Course Credit Menu:
+            1. Add Course Credit
+            2. View All Course Credits
+            3. Delete Course Credit
+            5. Return to previous menu
+            6. Exit
+            Enter your choice:""";
+
 }
