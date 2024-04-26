@@ -11,7 +11,7 @@ BEGIN
     
     RETURN student_exists;
 END check_student_existence;
-
+/
 
 CREATE OR REPLACE FUNCTION check_graduate_student(p_b# IN students.b#%TYPE)
 RETURN NUMBER
@@ -23,10 +23,10 @@ BEGIN
     INTO student_status
     FROM students s
     WHERE s.B# = p_B# AND s.ST_LEVEL = 'graduate';
-    
+
     RETURN student_status;
 END check_graduate_student;
-
+/
 
 CREATE OR REPLACE FUNCTION check_class_existence(p_classid IN classes.classid%TYPE)
 RETURN NUMBER
@@ -41,3 +41,4 @@ BEGIN
     
     RETURN class_exists;
 END check_class_existence;
+/

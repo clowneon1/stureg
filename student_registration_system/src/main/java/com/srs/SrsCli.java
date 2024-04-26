@@ -9,7 +9,12 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class SrsCli {
-    public static void cliInit() throws SQLException {
+
+    public static void main(String[] args) {
+        cliInit();
+    }
+
+    public static void cliInit()  {
         Connection conn = null;
         try {
             conn = DatabaseConnection.getConnectionInstance();
@@ -17,7 +22,11 @@ public class SrsCli {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
-            conn.close();
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     private static void showMenu(Connection conn) {

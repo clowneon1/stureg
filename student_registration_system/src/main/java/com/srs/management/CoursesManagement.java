@@ -96,10 +96,10 @@ public class CoursesManagement {
     }
 
     public void viewCourseByID() {
-        System.out.println("Enter the course ID:");
-        String courseId = scanner.nextLine();
         System.out.println("Enter the course Dept Code:");
         String deptCode = scanner.nextLine();
+        System.out.println("Enter the course ID:");
+        String courseId = scanner.nextLine();
 
         String query = "SELECT * FROM courses WHERE course# = ? and dept_code = ?";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
