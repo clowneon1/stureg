@@ -32,8 +32,13 @@ public class ClassController {
     }
 
     @PostMapping
-    public String createClass(@RequestBody ClassDTO classDTO) throws ParseException, SQLException {
+    public String createClass(@RequestBody ClassDTO classDTO) throws SQLException {
         Boolean input = true;
-        return classesManagement.addClass(input, classDTO);
+        return classesManagement.addClass(classDTO);
+    }
+
+    @DeleteMapping("/classId")
+    public String deleteClass(@RequestParam String classId) throws SQLException {
+        return classesManagement.deleteClass(classId);
     }
 }

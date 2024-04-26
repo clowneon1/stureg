@@ -7,9 +7,7 @@ import com.srs.config.DatabaseConnection;
 import com.srs.management.CoursesManagement;
 import com.srs.management.EnrollmentManagement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -32,5 +30,15 @@ public class EnrollmentController {
     @GetMapping
     public List<GEnrollmentDTO> getAllEnrollments() throws ParseException {
         return enrollmentManagement.viewEnrollments();
+    }
+
+    @PostMapping("/studentId/classId")
+    public String enrollStudentIntoClass(@RequestParam String studentId,String classId) throws SQLException {
+        return enrollmentManagement.addEnrollment(studentId, classId);
+    }
+
+    @DeleteMapping("/studentId/classId")
+    public String dropStudentFromClass(@RequestParam String studentId,String classId) throws SQLException {
+        return enrollmentManagement.deleteEnrollment(studentId, classId);
     }
 }

@@ -30,10 +30,10 @@ public class EnrollmentManagement {
                         viewEnrollments();
                         break;
                     case 2:
-                        addEnrollment();
+                        addEnrollmentCli();
                         break;
                     case 3:
-                        deleteEnrollment();
+                        deleteEnrollmentCli();
                         break;
                     case 4:
                         return;
@@ -48,6 +48,22 @@ public class EnrollmentManagement {
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void deleteEnrollmentCli() throws SQLException {
+            System.out.println("Enter student B#:");
+            String sId = scanner.nextLine();
+            System.out.println("Enter class ID:");
+            String classId = scanner.nextLine();
+            deleteEnrollment(sId, classId);
+    }
+
+    private void addEnrollmentCli() throws SQLException {
+            System.out.println("Enter student B#:");
+            String sId = scanner.nextLine();
+            System.out.println("Enter class ID:");
+            String classId = scanner.nextLine();
+            addEnrollment(sId, classId);
     }
 
     public List<GEnrollmentDTO> viewEnrollments(){
@@ -68,41 +84,37 @@ public class EnrollmentManagement {
         }
     }
 
-    public void addEnrollment() throws SQLException {
+    public String addEnrollment(String sId, String classId) throws SQLException {
         String ADD_ENROLLMENT_QUERY = "{call student_management_package.enroll_student_into_class(?, ?)}";
         CallableStatement stmt = conn.prepareCall(ADD_ENROLLMENT_QUERY);
         DbmsOutput dbmsOutput = new DbmsOutput(conn);
         dbmsOutput.enable(1000000);
-        System.out.println("Enter student B#:");
-        String bNumber = scanner.nextLine();
-        System.out.println("Enter class ID:");
-        String classId = scanner.nextLine();
 
-        stmt.setString(1, bNumber);
+
+        stmt.setString(1, sId);
         stmt.setString(2, classId);
         stmt.execute();
         stmt.close();
-        dbmsOutput.show();
+        List<String> result = dbmsOutput.show();
         dbmsOutput.close();
+        return result.get(0);
+
     }
 
-    public void deleteEnrollment() throws SQLException {
+    public String deleteEnrollment(String sId, String classId) throws SQLException {
         String DELETE_ENROLLMENT_QUERY = "{call student_management_package.drop_student_from_class(?, ?)}";
         CallableStatement stmt = conn.prepareCall(DELETE_ENROLLMENT_QUERY);
         DbmsOutput dbmsOutput = new DbmsOutput(conn);
         dbmsOutput.enable(1000000);
 
-        System.out.println("Enter student B#:");
-        String bNumber = scanner.nextLine();
-        System.out.println("Enter class ID:");
-        String classId = scanner.nextLine();
 
-        stmt.setString(1, bNumber);
+
+        stmt.setString(1, sId);
         stmt.setString(2, classId);
         stmt.execute();
         stmt.close();
-        dbmsOutput.show();
+        List<String> result = dbmsOutput.show();
         dbmsOutput.close();
-
+        return result.get(0);
     }
 }
