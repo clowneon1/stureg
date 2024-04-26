@@ -2,9 +2,7 @@ package com.srs.Dto;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.aot.generate.InMemoryGeneratedFiles;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogsDTO {
+public class LogDTO {
     private int logNumber;
     private String userName;
     private Date operationTime;
@@ -23,8 +21,8 @@ public class LogsDTO {
     private String operation;
     private String tupleKeyValue;
 
-    public static List<LogsDTO> mapFromSQL(List<String> sqlOutputs) throws ParseException {
-        List<LogsDTO> logs = new ArrayList<>();
+    public static List<LogDTO> mapFromSQL(List<String> sqlOutputs) throws ParseException {
+        List<LogDTO> logs = new ArrayList<>();
         System.out.println("************" + sqlOutputs.size());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy");
 
@@ -73,7 +71,7 @@ public class LogsDTO {
                 }
             }
 
-            logs.add(new LogsDTO(logNumber, userName, operationTime, tableName, operation, tupleKeyValue));
+            logs.add(new LogDTO(logNumber, userName, operationTime, tableName, operation, tupleKeyValue));
         }
 
         return logs;

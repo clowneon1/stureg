@@ -1,5 +1,6 @@
 package com.srs.controller;
 
+import com.srs.Dto.LogDTO;
 import com.srs.config.DatabaseConnection;
 import com.srs.management.LogsManagement;
 import com.srs.management.StudentsManagement;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 @RestController
@@ -30,7 +32,7 @@ public class LogsController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllLogs(){
+    public ResponseEntity<List<LogDTO>> getAllLogs(){
         return new ResponseEntity<>(logsManagement.displayLogs(), HttpStatus.OK);
     }
 }

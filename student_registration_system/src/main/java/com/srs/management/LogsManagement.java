@@ -1,8 +1,7 @@
 package com.srs.management;
 
 
-import com.srs.Dto.LogsDTO;
-import org.springframework.stereotype.Service;
+import com.srs.Dto.LogDTO;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -19,7 +18,7 @@ public class LogsManagement {
         this.scanner = scanner;
     }
 
-    public List<LogsDTO> displayLogs() {
+    public List<LogDTO> displayLogs() {
         try {
             Statement stmt = conn.createStatement();
             DbmsOutput dbmsOutput = new DbmsOutput(conn);
@@ -29,7 +28,7 @@ public class LogsManagement {
             stmt.close();
             List result = dbmsOutput.show();
             dbmsOutput.close();
-            return LogsDTO.mapFromSQL(result);
+            return LogDTO.mapFromSQL(result);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ParseException e) {
