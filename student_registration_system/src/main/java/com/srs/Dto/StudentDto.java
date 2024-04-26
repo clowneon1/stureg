@@ -29,7 +29,6 @@ public class StudentDto {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy");
 
                 for (String sqlOutput : sqlOutputs) {
-                        System.out.println("sqlOutput = " + sqlOutput);
                         String[] columns = sqlOutput.split(",");
 
                         String bNumber = null, firstName = null, lastName = null, level = null,

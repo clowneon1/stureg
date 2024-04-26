@@ -27,7 +27,6 @@ public class LogDTO {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy");
 
         for (String sqlOutput : sqlOutputs) {
-            System.out.println("sqlOutput = " + sqlOutput);
             String[] columns = sqlOutput.split(",");
 
             Integer logNumber = null;
