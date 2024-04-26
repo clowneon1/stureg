@@ -27,7 +27,7 @@ public class ClassController {
 
 
     @GetMapping
-    public List<ClassDTO> getAllClasses() throws ParseException {
+    public List<ClassDTO> getAllClasses() {
         return classesManagement.viewClasses();
     }
 

@@ -30,7 +30,7 @@ public class StudentController {
     }
 
 
-    @GetMapping
+    @GetMapping("/")
     public List<StudentDto> getAllStudent() throws ParseException {
         return studentsManagement.viewAllStudents();
     }
@@ -42,13 +42,13 @@ public class StudentController {
         if (response instanceof StudentDto) {
             return ResponseEntity.ok().body((StudentDto) response);
         } else if (response instanceof String) {
-            return ResponseEntity.ok().body((String) response);
+            return ResponseEntity.badRequest().body((String) response);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected response type");
         }
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<?> createStudent(@RequestBody StudentDto studentDto){
         return new ResponseEntity<>(studentsManagement.addStudent(studentDto), HttpStatus.CREATED);
 
