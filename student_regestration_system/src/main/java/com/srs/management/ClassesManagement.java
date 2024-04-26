@@ -3,9 +3,7 @@ package com.srs.management;
 
 
 import com.srs.Dto.ClassDTO;
-import com.srs.Dto.StudentDto;
 import com.srs.utility.MenuStrings;
-import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.List;
@@ -39,10 +37,10 @@ public class ClassesManagement {
                         viewClassByID();
                         break;
                     case 3:
-                        addClass(false, null);
+                        addClassCli();
                         break;
                     case 4:
-                        deleteClass();
+                        deleteClassCli();
                         break;
                     case 5:
                         return;
@@ -61,6 +59,8 @@ public class ClassesManagement {
 
     }
 
+
+
     public List<ClassDTO> viewClasses(){
         String VIEW_CLASSES_PROCEDURE = "{ call student_management_package.show_classes }";
 
@@ -68,16 +68,16 @@ public class ClassesManagement {
         try {
             stmt = conn.createStatement();
 
-        DbmsOutput dbmsOutput = new DbmsOutput(conn);
-        dbmsOutput.enable(1000000);
-        stmt.execute(VIEW_CLASSES_PROCEDURE);
+            DbmsOutput dbmsOutput = new DbmsOutput(conn);
+            dbmsOutput.enable(1000000);
+            stmt.execute(VIEW_CLASSES_PROCEDURE);
 
-        stmt.close();
-        List<String> result = dbmsOutput.show();
-        dbmsOutput.close();
-        return ClassDTO.mapFromSQL(result);
+            stmt.close();
+            List<String> result = dbmsOutput.show();
+            dbmsOutput.close();
+            return ClassDTO.mapFromSQL(result);
         }
-         catch (SQLException e) {
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -108,15 +108,8 @@ public class ClassesManagement {
         }
     }
 
-    public String addClass(Boolean input, ClassDTO classDTO) throws SQLException {
+    public String addClass(ClassDTO classInput) throws SQLException {
         String ADD_CLASS_QUERY = "INSERT INTO classes (classid, dept_code, course#, sect#, year, semester, limit, class_size, room) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        ClassDTO classInput = null;
-        if(input){
-            classInput = classDTO;
-        }else{
-            classInput= inputFromTerminal();
-        }
-
 
         try (PreparedStatement ps = conn.prepareStatement(ADD_CLASS_QUERY)) {
             ps.setString(1, classInput.getClassId());
@@ -140,26 +133,31 @@ public class ClassesManagement {
             }
         }
     }
-
-    public void deleteClass() throws SQLException {
-        String DELETE_CLASS_QUERY = "DELETE FROM classes WHERE classid = ?";
-
+    private void deleteClassCli() throws SQLException {
         System.out.println("Enter class ID of the class to delete:");
         String classId = scanner.nextLine();
+        deleteClass(classId);
+    }
+    public String deleteClass(String classId) throws SQLException {
+        String DELETE_CLASS_QUERY = "DELETE FROM classes WHERE classid = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(DELETE_CLASS_QUERY)) {
             ps.setString(1, classId);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Class deleted successfully.");
+                String response = "Class deleted successfully.";
+                System.out.println(response);
+                return response;
             } else {
+                String response = "Failed to delete class.";
                 System.out.println("Failed to delete class. Class not found.");
+                return response;
             }
         }
     }
 
 
-    private ClassDTO inputFromTerminal(){
+    private void addClassCli() throws SQLException {
         ClassDTO classDTO = new ClassDTO();
         System.out.println("Enter class ID:");
         classDTO.setClassId(scanner.nextLine());
@@ -182,7 +180,7 @@ public class ClassesManagement {
         System.out.println("Enter room:");
         classDTO.setRoom(scanner.nextLine());
 
-        return classDTO;
+        addClass(classDTO);
     }
 
 }

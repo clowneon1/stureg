@@ -40,9 +40,7 @@ public class StudentsManagement {
                         viewAllStudents();
                         break;
                     case 3:
-                        System.out.print("Enter student ID: ");
-                        String studentId = scanner.next();
-                        viewStudentByID(studentId);
+                        viewStudentByIDCli();
                         break;
                     case 4:
                         viewStudentsByCourseId();
@@ -64,6 +62,12 @@ public class StudentsManagement {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void viewStudentByIDCli() throws SQLException {
+        System.out.print("Enter student ID: ");
+        String studentId = scanner.next();
+        viewStudentByID(studentId);
     }
 
     public void viewStudentsByCourseId() {

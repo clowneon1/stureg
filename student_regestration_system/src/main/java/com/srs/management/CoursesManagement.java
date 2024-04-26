@@ -1,7 +1,6 @@
 package com.srs.management;
 
 
-
 import com.srs.Dto.CourseDTO;
 import com.srs.utility.MenuStrings;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class CoursesManagement {
         this.scanner = scanner;
     }
 
-    public void displayMenu(){
+    public void displayMenu() {
         try {
             while (true) {
                 System.out.print(MenuStrings.COURSE_MENU);
@@ -36,10 +35,10 @@ public class CoursesManagement {
                         viewCourseByID();
                         break;
                     case 3:
-                        addCourse();
+                        addCourseCli();
                         break;
                     case 4:
-                        deleteCourse();
+                        deleteCourseCli();
                         break;
                     case 5:
                         return;
@@ -51,9 +50,28 @@ public class CoursesManagement {
                         System.out.println("Invalid choice. Please enter a valid option.");
                 }
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void deleteCourseCli() throws SQLException {
+        System.out.println("Enter department code of the course to delete:");
+        String deptCode = scanner.nextLine();
+        System.out.println("Enter course number of the course to delete:");
+        String courseNumber = scanner.nextLine();
+        deleteCourse(deptCode, courseNumber);
+    }
+
+    private void addCourseCli() throws SQLException {
+        CourseDTO courseDTO = new CourseDTO();
+        System.out.println("Enter department code:");
+        courseDTO.setDeptCode(scanner.nextLine());
+        System.out.println("Enter course number:");
+        courseDTO.setCourseNumber(Integer.parseInt(scanner.nextLine()));
+        System.out.println("Enter course title:");
+        courseDTO.setTitle(scanner.nextLine());
+        addCourse(courseDTO);
     }
 
 
@@ -64,81 +82,80 @@ public class CoursesManagement {
         try {
             stmt = conn.createStatement();
 
-        DbmsOutput dbmsOutput = new DbmsOutput(conn);
-        dbmsOutput.enable(1000000);
-        stmt.execute(VIEW_COURSES_PROCEDURE);
+            DbmsOutput dbmsOutput = new DbmsOutput(conn);
+            dbmsOutput.enable(1000000);
+            stmt.execute(VIEW_COURSES_PROCEDURE);
 
-        stmt.close();
-        List<String> list =  dbmsOutput.show();
-        dbmsOutput.close();
-        return CourseDTO.mapFromSQL(list);
+            stmt.close();
+            List<String> list = dbmsOutput.show();
+            dbmsOutput.close();
+            return CourseDTO.mapFromSQL(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public  void viewCourseByID() {
-            System.out.println("Enter the course ID:");
-            String courseId = scanner.nextLine();
-            System.out.println("Enter the course Dept Code:");
-            String deptCode = scanner.nextLine();
+    public void viewCourseByID() {
+        System.out.println("Enter the course ID:");
+        String courseId = scanner.nextLine();
+        System.out.println("Enter the course Dept Code:");
+        String deptCode = scanner.nextLine();
 
-            String query = "SELECT * FROM courses WHERE course# = ? and dept_code = ?";
-            try (PreparedStatement ps = conn.prepareStatement(query)) {
-                ps.setString(1, courseId);
-                ps.setString(2, deptCode);
-                ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    System.out.printf("Department Code: %s,", rs.getString("dept_code"));
-                    System.out.printf("Course Number: %s,", rs.getString("course#"));
-                    System.out.printf("Title: %s%n", rs.getString("title"));
-                } else {
-                    System.out.println("Course not found.");
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+        String query = "SELECT * FROM courses WHERE course# = ? and dept_code = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, courseId);
+            ps.setString(2, deptCode);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                System.out.printf("Department Code: %s,", rs.getString("dept_code"));
+                System.out.printf("Course Number: %s,", rs.getString("course#"));
+                System.out.printf("Title: %s%n", rs.getString("title"));
+            } else {
+                System.out.println("Course not found.");
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void addCourse() throws SQLException {
+    public String addCourse(CourseDTO courseDTO) throws SQLException {
         String ADD_COURSE_QUERY = "INSERT INTO courses (dept_code, course#, title) VALUES (?, ?, ?)";
 
-        System.out.println("Enter department code:");
-        String deptCode = scanner.nextLine();
-        System.out.println("Enter course number:");
-        String courseNumber = scanner.nextLine();
-        System.out.println("Enter course title:");
-        String title = scanner.nextLine();
 
         try (PreparedStatement ps = conn.prepareStatement(ADD_COURSE_QUERY)) {
-            ps.setString(1, deptCode);
-            ps.setString(2, courseNumber);
-            ps.setString(3, title);
+            ps.setString(1, courseDTO.getDeptCode());
+            ps.setString(2, String.valueOf(courseDTO.getCourseNumber()));
+            ps.setString(3, courseDTO.getTitle());
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Course added successfully.");
+                String response = "Course added successfully.";
+                System.out.println(response);
+                return response;
             } else {
-                System.out.println("Failed to add course.");
+                String response = "Course not added successfully.";
+                System.out.println(response);
+                return response;
             }
         }
     }
 
-    public void deleteCourse() throws SQLException {
+    public String deleteCourse(String deptCode, String courseNumber) throws SQLException {
         String DELETE_COURSE_QUERY = "DELETE FROM courses WHERE dept_code = ? AND course# = ?";
+        String response;
 
-        System.out.println("Enter department code of the course to delete:");
-        String deptCode = scanner.nextLine();
-        System.out.println("Enter course number of the course to delete:");
-        String courseNumber = scanner.nextLine();
 
         try (PreparedStatement ps = conn.prepareStatement(DELETE_COURSE_QUERY)) {
             ps.setString(1, deptCode);
             ps.setString(2, courseNumber);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Course deleted successfully.");
+                response = "Course deleted successfully.";
+                System.out.println(response);
+                return response;
             } else {
-                System.out.println("Failed to delete course. Course not found.");
+                response = "Course not deleted successfully.";
+                System.out.println(response);
+                return response;
             }
         }
     }

@@ -3,9 +3,7 @@ package com.srs.controller;
 import com.srs.Dto.CourseDTO;
 import com.srs.config.DatabaseConnection;
 import com.srs.management.CoursesManagement;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,5 +26,15 @@ public class CourseController {
     @GetMapping
     public List<CourseDTO> getAllCourses() throws ParseException {
         return coursesManagement.viewCourses();
+    }
+
+    @PostMapping
+    public String addCourse(@RequestBody CourseDTO courseDTO ) throws SQLException {
+        return coursesManagement.addCourse(courseDTO);
+    }
+
+    @DeleteMapping("/deptCode/courseNumber")
+    public String deleteCourse(@RequestParam String deptCode, String courseNumber) throws SQLException {
+        return coursesManagement.deleteCourse(deptCode, courseNumber);
     }
 }
