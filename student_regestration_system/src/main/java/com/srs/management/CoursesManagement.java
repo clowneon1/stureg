@@ -71,7 +71,6 @@ public class CoursesManagement {
         stmt.close();
         List<String> list =  dbmsOutput.show();
         dbmsOutput.close();
-        conn.close();
         return CourseDTO.mapFromSQL(list);
         } catch (SQLException e) {
             throw new RuntimeException(e);

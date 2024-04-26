@@ -9,10 +9,7 @@ import com.srs.management.StudentsManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -51,5 +48,15 @@ public class StudentController {
         }
     }
 
+    @PostMapping
+    public ResponseEntity<?> createStudent(@RequestBody StudentDto studentDto){
+        return new ResponseEntity<>(studentsManagement.addStudent(studentDto), HttpStatus.CREATED);
+
+    }
+
+    @DeleteMapping("/id")
+    public ResponseEntity<?> deleteStudent(@RequestParam String id){
+        return new ResponseEntity<>(studentsManagement.deleteStudent(id), HttpStatus.OK);
+    }
 
 }

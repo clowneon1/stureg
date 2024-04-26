@@ -34,7 +34,7 @@ public class StudentsManagement {
 
                 switch (choice) {
                     case 1:
-                        addStudent();
+                        addStudentInputCLI();
                         break;
                     case 2:
                         viewAllStudents();
@@ -48,7 +48,7 @@ public class StudentsManagement {
                         viewStudentsByCourseId();
                         break;
                     case 5:
-                        deleteStudent();
+                        deleteStudentInputCLI();
                         break;
                     case 6:
                         System.out.println("Exiting Student Management. Goodbye!");
@@ -91,44 +91,62 @@ public class StudentsManagement {
         }
     }
 
-    public void addStudent() {
-        try {
-            System.out.print("Enter Student ID: ");
-            String studentId = scanner.nextLine().trim();
-            System.out.print("Enter First Name: ");
-            String firstName = scanner.nextLine().trim();
-            System.out.print("Enter Last Name: ");
-            String lastName = scanner.nextLine().trim();
-            System.out.print("Enter Student Level: ");
-            String studentLevel = scanner.nextLine().trim();
-            System.out.print("Enter GPA: ");
-            double gpa = scanner.nextDouble();
-            scanner.nextLine(); // Consume newline
-            System.out.print("Enter Email: ");
-            String email = scanner.nextLine().trim();
-            System.out.print("Enter Birth Date (YYYY-MM-DD): ");
-            String birthDateString = scanner.nextLine().trim();
-            Date birthDate = Date.valueOf(birthDateString);
+    public StudentDto addStudentInputCLI() {
+        Scanner scanner = new Scanner(System.in);
+        StudentDto studentDto = new StudentDto();
 
+        System.out.print("Enter Student ID: ");
+        studentDto.setStudentId(scanner.nextLine().trim());
+
+        System.out.print("Enter First Name: ");
+        studentDto.setFirstName(scanner.nextLine().trim());
+
+        System.out.print("Enter Last Name: ");
+        studentDto.setLastName(scanner.nextLine().trim());
+
+        System.out.print("Enter Student Level: ");
+        studentDto.setStudentLevel(scanner.nextLine().trim());
+
+        System.out.print("Enter GPA: ");
+        studentDto.setGpa(scanner.nextDouble());
+        scanner.nextLine(); // Consume newline
+
+        System.out.print("Enter Email: ");
+        studentDto.setEmail(scanner.nextLine().trim());
+
+        System.out.print("Enter Birth Date (YYYY-MM-DD): ");
+        String birthDateString = scanner.nextLine().trim();
+        studentDto.setBirthDate(Date.valueOf(birthDateString));
+
+        return studentDto;
+    }
+
+
+
+    public String addStudent(StudentDto studentDto) {
+        try {
             String sql = "INSERT INTO Students (B#, first_name, last_name, st_level, gpa, email, bdate) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setString(1, studentId);
-                stmt.setString(2, firstName);
-                stmt.setString(3, lastName);
-                stmt.setString(4, studentLevel);
-                stmt.setDouble(5, gpa);
-                stmt.setString(6, email);
-                stmt.setDate(7, birthDate);
+                stmt.setString(1, studentDto.getStudentId());
+                stmt.setString(2, studentDto.getFirstName());
+                stmt.setString(3, studentDto.getLastName());
+                stmt.setString(4, studentDto.getStudentLevel());
+                stmt.setDouble(5, studentDto.getGpa());
+                stmt.setString(6, studentDto.getEmail());
+                stmt.setDate(7, new Date(studentDto.getBirthDate().getTime()));
 
                 int rowsAffected = stmt.executeUpdate();
                 if (rowsAffected > 0) {
                     System.out.println("Student added successfully.");
+                    return "Student added successfully.";
                 } else {
                     System.out.println("Failed to add student.");
+                    return "Failed to add student.";
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return "Failed to add student.";
         }
     }
 
@@ -180,9 +198,7 @@ public class StudentsManagement {
         }
     }
 
-    public void deleteStudent()  {
-        System.out.print("Enter student ID to delete: ");
-        String studentId = scanner.next();
+    public String deleteStudent(String studentId)  {
 
         CallableStatement stmt = null;
         try {
@@ -192,11 +208,18 @@ public class StudentsManagement {
             stmt.setString(1,studentId);
             stmt.execute();
             stmt.close();
-            dbmsOutput.show();
+            List<String> result = dbmsOutput.show();
             dbmsOutput.close();
+            return result.get(0);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return "Could not delete Student";
         }
 
+    }
+    public void deleteStudentInputCLI() {
+        System.out.print("Enter student ID to delete: ");
+        String studentId = scanner.next();
+        deleteStudent(studentId);
     }
 }

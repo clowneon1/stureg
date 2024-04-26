@@ -1,7 +1,6 @@
 package com.srs.management;
 
 
-import com.srs.Dto.PrerequisiteDTO;
 import com.srs.utility.MenuStrings;
 
 import java.sql.*;
@@ -60,7 +59,7 @@ public class PrerequisitesManagement {
         }
     }
 
-    public List<PrerequisiteDTO> viewAllPrerequisites() {
+    public void viewAllPrerequisites() {
         try {
             Statement stmt = conn.createStatement();
             DbmsOutput dbmsOutput = new DbmsOutput(conn);
@@ -68,9 +67,8 @@ public class PrerequisitesManagement {
             stmt.execute("{call student_management_package.show_prerequisites}");
 
             stmt.close();
-            List<String> result = dbmsOutput.show();
+            dbmsOutput.show();
             dbmsOutput.close();
-            return PrerequisiteDTO.mapFromSQL(result);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
