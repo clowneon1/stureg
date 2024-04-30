@@ -1,0 +1,32 @@
+[
+  {
+    "studentId": "S001",
+    "firstName": "John",
+    "lastName": "Doe",
+    "studentLevel": "freshman",
+    "gpa": 3.75,
+    "email": "john.doe@example.com",
+    "birthDate": "1998-06-15"
+  },
+  {
+    "classId": "ABC123",
+    "deptCode": "CSE",
+    "courseNumber": 101,
+    "sectionNumber": 1,
+    "year": 2023,
+    "semester": "Spring",
+    "limit": 30,
+    "classSize": 25,
+    "room": "101"
+  },
+  {
+    "deptCode": "CSE",
+    "courseNumber": 101,
+    "title": "Introduction to Computer Science"
+  },
+  {
+    "studentBNumber": "B000001",
+    "classId": "C001",
+    "score": 85.5
+  }
+]

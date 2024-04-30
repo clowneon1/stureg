@@ -1,10 +1,10 @@
 package com.srs.management;
 
 
+import com.srs.outputs.DbmsOutput;
 import com.srs.utility.MenuStrings;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -55,7 +55,7 @@ public class PrerequisitesManagement {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

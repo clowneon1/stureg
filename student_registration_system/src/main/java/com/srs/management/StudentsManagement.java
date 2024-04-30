@@ -2,6 +2,7 @@ package com.srs.management;
 
 
 import com.srs.Dto.StudentDto;
+import com.srs.outputs.DbmsOutput;
 import com.srs.utility.MenuStrings;
 
 import java.sql.*;
@@ -60,7 +61,7 @@ public class StudentsManagement {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -149,7 +150,7 @@ public class StudentsManagement {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return "Failed to add student.";
         }
     }
@@ -216,7 +217,7 @@ public class StudentsManagement {
             dbmsOutput.close();
             return result.get(0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return "Could not delete Student";
         }
 

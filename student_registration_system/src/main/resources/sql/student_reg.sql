@@ -34,8 +34,7 @@ sect# number(2), year number(4), semester varchar2(8)
 check (semester in ('Spring', 'Fall', 'Summer 1', 'Summer 2', 'Winter')), 
 limit number(3), class_size number(3), room varchar2(10), 
 foreign key (dept_code, course#) references courses on delete cascade, 
-unique(dept_code, course#, sect#, year, semester), check (class_size <= limit),
-check ((class_size >= 6 and course# >= 500) or class_size >= 10));
+unique(dept_code, course#, sect#, year, semester), check (class_size <= limit));
 
 
 create table score_grade (score number(4, 2) primary key,

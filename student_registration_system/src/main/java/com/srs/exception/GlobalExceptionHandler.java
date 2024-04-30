@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ResponseEntity<String> handleSQLException(SQLException ex) {
-        ex.printStackTrace();
+        System.out.println("ex.getMessage() = " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Database Error: " + ex.getMessage());
     }
 }

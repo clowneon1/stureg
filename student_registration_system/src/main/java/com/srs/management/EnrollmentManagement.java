@@ -1,9 +1,13 @@
 package com.srs.management;
 
 import com.srs.Dto.GEnrollmentDTO;
+import com.srs.outputs.DbmsOutput;
 import com.srs.utility.MenuStrings;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Scanner;
 
@@ -89,8 +93,6 @@ public class EnrollmentManagement {
         CallableStatement stmt = conn.prepareCall(ADD_ENROLLMENT_QUERY);
         DbmsOutput dbmsOutput = new DbmsOutput(conn);
         dbmsOutput.enable(1000000);
-
-
         stmt.setString(1, sId);
         stmt.setString(2, classId);
         stmt.execute();
@@ -106,9 +108,6 @@ public class EnrollmentManagement {
         CallableStatement stmt = conn.prepareCall(DELETE_ENROLLMENT_QUERY);
         DbmsOutput dbmsOutput = new DbmsOutput(conn);
         dbmsOutput.enable(1000000);
-
-
-
         stmt.setString(1, sId);
         stmt.setString(2, classId);
         stmt.execute();

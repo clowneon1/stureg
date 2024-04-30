@@ -65,7 +65,7 @@ public class StudentDto {
                                                         try {
                                                                 birthDate = dateFormat.parse(value);
                                                         } catch (ParseException e) {
-                                                                e.printStackTrace();
+                                                                System.out.println(e.getMessage());
                                                         }
                                                         break;
                                                 default:

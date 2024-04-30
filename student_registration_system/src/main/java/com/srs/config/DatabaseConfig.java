@@ -1,7 +1,6 @@
 package com.srs.config;
 
 
-import oracle.jdbc.pool.OracleDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -60,7 +60,7 @@ public class LogDTO {
                             try {
                                 operationTime = dateFormat.parse(value);
                             } catch (ParseException e) {
-                                e.printStackTrace();
+                                System.out.println(e.getMessage());
                             }
                             break;
                         default:
