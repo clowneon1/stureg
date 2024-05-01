@@ -99,7 +99,7 @@ public class EnrollmentManagement {
         stmt.close();
         List<String> result = dbmsOutput.show();
         dbmsOutput.close();
-        return result.get(0);
+        return result.get(0).contains("successful")?"Student Enrolled successfully.":result.get(0);
 
     }
 
@@ -114,6 +114,6 @@ public class EnrollmentManagement {
         stmt.close();
         List<String> result = dbmsOutput.show();
         dbmsOutput.close();
-        return result.get(0);
+        return result.get(0).contains("successful")?"Student Successfully Dropped from class successfully.":result.get(0);
     }
 }

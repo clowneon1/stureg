@@ -43,10 +43,10 @@ public class ClassDTO {
                         case "Dept Code":
                             deptCode = value;
                             break;
-                        case "Course Number":
+                        case "Course#":
                             courseNumber = Integer.parseInt(value);
                             break;
-                        case "Section Number":
+                        case "Section#":
                             sectionNumber = Integer.parseInt(value);
                             break;
                         case "Year":

@@ -169,7 +169,6 @@ public class StudentsManagement {
         } catch (SQLException | ParseException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public Object viewStudentByID(String studentId) throws SQLException {
@@ -215,7 +214,7 @@ public class StudentsManagement {
             stmt.close();
             List<String> result = dbmsOutput.show();
             dbmsOutput.close();
-            return result.get(0);
+            return result.get(0).contains("Trigger")?"Student deleted successfully":result.get(0);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return "Could not delete Student";

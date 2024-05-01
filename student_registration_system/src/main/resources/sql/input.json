@@ -1,6 +1,7 @@
 [
+//  student request json body
   {
-    "studentId": "S001",
+    "studentId": "B00000098",
     "firstName": "John",
     "lastName": "Doe",
     "studentLevel": "freshman",
@@ -8,25 +9,28 @@
     "email": "john.doe@example.com",
     "birthDate": "1998-06-15"
   },
+// Class Request body
   {
-    "classId": "ABC123",
-    "deptCode": "CSE",
-    "courseNumber": 101,
-    "sectionNumber": 1,
-    "year": 2023,
+    "classId": "c0014",
+    "deptCode": "CS",
+    "courseNumber": 105,
+    "sectionNumber": 2,
+    "year": 2024,
     "semester": "Spring",
     "limit": 30,
-    "classSize": 25,
-    "room": "101"
+    "classSize": 12,
+    "room": "LH 13"
   },
+
+  //Course request body
   {
-    "deptCode": "CSE",
-    "courseNumber": 101,
-    "title": "Introduction to Computer Science"
+    "deptCode": "CS",
+    "courseNumber": 700,
+    "title": "AI"
   },
+  //enrollment
   {
-    "studentBNumber": "B000001",
-    "classId": "C001",
-    "score": 85.5
+    "studentBNumber": "B00000013",
+    "classId": "c0010"
   }
 ]

@@ -162,3 +162,5 @@ insert into g_enrollments values ('B00000010', 'c0010', 92);
 insert into g_enrollments values ('B00000010', 'c0009', 76); 
 insert into g_enrollments values ('B00000010', 'c0008', 79.5);
 
+
+commit;
